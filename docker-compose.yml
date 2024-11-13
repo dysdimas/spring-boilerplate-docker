@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8005:8005"
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/taskdb?serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+      - SPRING_DATASOURCE_USERNAME=bybdbuser
+      - SPRING_DATASOURCE_PASSWORD=saudara123
+      - SECURITY_JWT_SECRET_KEY=3cfa76ef14937c1c0ea519f8fc057a80fcd04a7420f8e8bcd0a7567c272e007b
+      - SECURITY_JWT_EXPIRATION_TIME=86400000
+
+  db:
+    image: mysql:8.0
+    environment:
+      - MYSQL_DATABASE=taskdb
+      - MYSQL_USER=bybdbuser
+      - MYSQL_PASSWORD=saudara123
+      - MYSQL_ROOT_PASSWORD=saudara123
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
